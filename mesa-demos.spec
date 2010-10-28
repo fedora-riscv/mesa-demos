@@ -1,4 +1,4 @@
-%define gitdate 20100615
+%define gitdate 20101028
 %define tarball mesa-demos
 %define xdriinfo xdriinfo-1.0.3
 
@@ -6,20 +6,18 @@
 
 Summary: Mesa demos
 Name: mesa-demos
-Version: 1.0
-Release: 1%{gitdate}
+Version: 7.10
+Release: 1.%{gitdate}%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Source0: %{tarball}-%{gitdate}.tar.bz2
 Source1: http://www.x.org/pub/individual/app/%{xdriinfo}.tar.bz2
 Source2: mesad-git-snapshot.sh
 
-BuildRequires: pkgconfig autoconf automake
+BuildRequires: pkgconfig autoconf automake libtool
 BuildRequires: freeglut-devel
-BuildRequires: elfutils
 BuildRequires: libGL-devel
 BuildRequires: libGLU-devel
 BuildRequires: glew-devel
@@ -83,5 +81,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/man/man1/xdriinfo.1*
 
 %changelog
+* Thu Oct 28 2010 Adam Jackson <ajax@redhat.com> 7.10-1.20101028
+- Today's git snapshot
+- Arbitrary EVR bump to be newer than when the mesa source package dropped
+  the demos subpackage.
+
 * Tue Jun 15 2010 Jerome Glisse <jglisse@redhat.com> 7.7
 - Initial build.
