@@ -7,7 +7,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 7.10
-Release: 1.%{gitdate}%{?dist}
+Release: 2.%{gitdate}%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
@@ -57,6 +57,8 @@ popd
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+install -m 0755 src/xdemos/glxgears $RPM_BUILD_ROOT%{_bindir}
+install -m 0755 src/xdemos/glxinfo $RPM_BUILD_ROOT%{_bindir}
 install -m 0644 src/images/*.rgb $RPM_BUILD_ROOT/%{demodir}
 install -m 0644 src/demos/*.dat $RPM_BUILD_ROOT/%{demodir}
 
@@ -75,12 +77,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n glx-utils
 %defattr(-,root,root,-)
-%{demodir}/glxgears
-%{demodir}/glxinfo
+%{_bindir}/glxinfo
+%{_bindir}/glxgears
 %{_bindir}/xdriinfo
 %{_datadir}/man/man1/xdriinfo.1*
 
 %changelog
+* Sat Oct 30 2010 Dave Airlie <airlied@redhat.com> 7.10-2.20101028
+- fix install of gears/info (#647947)
+
 * Thu Oct 28 2010 Adam Jackson <ajax@redhat.com> 7.10-1.20101028
 - Today's git snapshot
 - Arbitrary EVR bump to be newer than when the mesa source package dropped
