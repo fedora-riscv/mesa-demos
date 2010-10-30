@@ -57,14 +57,15 @@ popd
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-install -m 0755 src/xdemos/glxgears $RPM_BUILD_ROOT%{_bindir}
-install -m 0755 src/xdemos/glxinfo $RPM_BUILD_ROOT%{_bindir}
 install -m 0644 src/images/*.rgb $RPM_BUILD_ROOT/%{demodir}
 install -m 0644 src/demos/*.dat $RPM_BUILD_ROOT/%{demodir}
 
 pushd ../%{xdriinfo}
 make %{?_smp_mflags} install DESTDIR=$RPM_BUILD_ROOT
 popd
+
+install -m 0755 src/xdemos/glxgears $RPM_BUILD_ROOT%{_bindir}
+install -m 0755 src/xdemos/glxinfo $RPM_BUILD_ROOT%{_bindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
