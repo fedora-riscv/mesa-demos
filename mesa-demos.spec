@@ -7,7 +7,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 7.10
-Release: 2.%{gitdate}%{?dist}
+Release: 3.%{gitdate}%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
@@ -58,6 +58,7 @@ popd
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 install -m 0644 src/images/*.rgb $RPM_BUILD_ROOT/%{demodir}
+install -m 0644 src/images/*.rgba $RPM_BUILD_ROOT/%{demodir}
 install -m 0644 src/demos/*.dat $RPM_BUILD_ROOT/%{demodir}
 
 pushd ../%{xdriinfo}
@@ -84,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/man/man1/xdriinfo.1*
 
 %changelog
+* Mon Nov 01 2010 Adam Jackson <ajax@redhat.com> 7.10-3.20101028
+- Install rgba images too (#640688)
+
 * Sat Oct 30 2010 Dave Airlie <airlied@redhat.com> 7.10-2.20101028
 - fix install of gears/info (#647947)
 
