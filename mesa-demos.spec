@@ -7,7 +7,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 7.10
-Release: 8.%{gitdate}%{?dist}
+Release: 9.%{gitdate}%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
@@ -85,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/man/man1/xdriinfo.1*
 
 %changelog
+* Thu Dec 13 2012 Adam Jackson <ajax@redhat.com> - 7.10-9.20101028
+- Rebuild for glew 1.9.0
+
 * Fri Jul 27 2012 Kalev Lember <kalevlember@gmail.com> - 7.10-8.20101028
 - Rebuilt for GLEW soname bump
 
