@@ -1,27 +1,30 @@
-%define gitdate 20101028
-%define tarball mesa-demos
-%define xdriinfo xdriinfo-1.0.3
-
-%define demodir %{_libdir}/mesa
+%global gitdate 20121218
+%global gitcommit 6eef979a5488dab01088412f88374b2ea9d615cd
+%global shortcommit %(c=%{gitcommit}; echo ${c:0:7})
+%global tarball mesa-demos
+%global xdriinfo xdriinfo-1.0.4
+%global demodir %{_libdir}/mesa
 
 Summary: Mesa demos
 Name: mesa-demos
-Version: 7.10
-Release: 9.%{gitdate}%{?dist}
+Version: 8.0.1
+Release: 1.%{gitdate}git%{shortcommit}%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
-
-Source0: %{tarball}-%{gitdate}.tar.bz2
+# git clone http://anongit.freedesktop.org/git/mesa/demos.git
+# mv demos mesa-demos-6eef979a5488dab01088412f88374b2ea9d615cd
+# tar --exclude-vcs -cjf mesa-demos-6eef979.tar.bz2 mesa-demos-6eef979a5488dab01088412f88374b2ea9d615cd
+Source0: %{tarball}-%{shortcommit}.tar.bz2
 Source1: http://www.x.org/pub/individual/app/%{xdriinfo}.tar.bz2
 Source2: mesad-git-snapshot.sh
-
+# Patch pointblast/spriteblast out of the Makefile for legal reasons
+Patch0: mesa-demos-8.0.1-legal.patch
 BuildRequires: pkgconfig autoconf automake libtool
 BuildRequires: freeglut-devel
 BuildRequires: libGL-devel
 BuildRequires: libGLU-devel
 BuildRequires: glew-devel
-
 Group: Development/Libraries
 
 %description
@@ -35,18 +38,16 @@ Group: Development/Libraries
 The glx-utils package provides the glxinfo and glxgears utilities.
 
 %prep
-%setup -q -n %{tarball}-%{gitdate} -b1
+%setup -q -n %{tarball}-%{gitcommit} -b1
+%patch0 -p1 -b .legal
 
-# Hack the demos to use installed data files
-
-sed -i 's,../images,%{_libdir}/mesa,' src/demos/*.c
-sed -i 's,geartrain.dat,%{_libdir}/mesa/&,' src/demos/geartrain.c
-sed -i 's,isosurf.dat,%{_libdir}/mesa/&,' src/demos/isosurf.c
-sed -i 's,terrain.dat,%{_libdir}/mesa/&,' src/demos/terrain.c
+# These two files are distributable, but non-free (lack of permission to modify).
+rm -rf src/demos/pointblast.c
+rm -rf src/demos/spriteblast.c
 
 %build
 autoreconf -i
-%configure --bindir=%{demodir}
+%configure --bindir=%{demodir} --with-system-data-files
 make %{?_smp_mflags}
 
 pushd ../%{xdriinfo}
@@ -55,36 +56,33 @@ make %{?_smp_mflags}
 popd
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-install -m 0644 src/images/*.rgb $RPM_BUILD_ROOT/%{demodir}
-install -m 0644 src/images/*.rgba $RPM_BUILD_ROOT/%{demodir}
-install -m 0644 src/demos/*.dat $RPM_BUILD_ROOT/%{demodir}
+make install DESTDIR=%{buildroot}
 
 pushd ../%{xdriinfo}
-make %{?_smp_mflags} install DESTDIR=$RPM_BUILD_ROOT
+make %{?_smp_mflags} install DESTDIR=%{buildroot}
 popd
 
-install -m 0755 src/xdemos/glxgears $RPM_BUILD_ROOT%{_bindir}
-install -m 0755 src/xdemos/glxinfo $RPM_BUILD_ROOT%{_bindir}
-
-%clean
-rm -rf $RPM_BUILD_ROOT
+install -m 0755 src/xdemos/glxgears %{buildroot}%{_bindir}
+install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}
 
 %check
 
 %files
-%defattr(-,root,root,-)
 %{demodir}
+%{_datadir}/%{name}/
 
 %files -n glx-utils
-%defattr(-,root,root,-)
 %{_bindir}/glxinfo
 %{_bindir}/glxgears
 %{_bindir}/xdriinfo
 %{_datadir}/man/man1/xdriinfo.1*
 
 %changelog
+* Tue Jan  8 2013 Tom Callaway <spot@fedoraproject.org> - 8.0.1-1.20121218git6eef979
+- update to 8.0.1 (git checkout from 20121218)
+- update xdriinfo to 1.0.4
+- remove non-free files (bz892925)
+
 * Thu Dec 13 2012 Adam Jackson <ajax@redhat.com> - 7.10-9.20101028
 - Rebuild for glew 1.9.0
 
