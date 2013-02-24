@@ -7,15 +7,16 @@
 
 Summary: Mesa demos
 Name: mesa-demos
-Version: 8.0.1
-Release: 2.%{gitdate}git%{shortcommit}%{?dist}
+Version: 8.1.0
+Release: 1
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
 # git clone http://anongit.freedesktop.org/git/mesa/demos.git
 # mv demos mesa-demos-6eef979a5488dab01088412f88374b2ea9d615cd
 # tar --exclude-vcs -cjf mesa-demos-6eef979.tar.bz2 mesa-demos-6eef979a5488dab01088412f88374b2ea9d615cd
-Source0: %{tarball}-%{shortcommit}.tar.bz2
+# Source0: %{tarball}-%{shortcommit}.tar.bz2
+Source0: ftp://ftp.freedesktop.org/pub/mesa/demos/8.1.0/%{tarball}-%{version}.tar.bz2
 Source1: http://www.x.org/pub/individual/app/%{xdriinfo}.tar.bz2
 Source2: mesad-git-snapshot.sh
 # Patch pointblast/spriteblast out of the Makefile for legal reasons
@@ -38,7 +39,7 @@ Group: Development/Libraries
 The glx-utils package provides the glxinfo and glxgears utilities.
 
 %prep
-%setup -q -n %{tarball}-%{gitcommit} -b1
+%setup -q -n %{tarball}-%{version} -b1
 %patch0 -p1 -b .legal
 
 # These two files are distributable, but non-free (lack of permission to modify).
@@ -78,6 +79,9 @@ install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}
 %{_datadir}/man/man1/xdriinfo.1*
 
 %changelog
+* Sun Feb 24 2013 Dave Airlie <airlied@redhat.com> 8.1.0-1
+- package upstream demos release 8.1.0 (mainly for new glxinfo)
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 8.0.1-2.20121218git6eef979
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
