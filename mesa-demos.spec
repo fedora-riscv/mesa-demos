@@ -8,7 +8,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.1.0
-Release: 1
+Release: 2%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
@@ -34,6 +34,7 @@ This package provides some demo applications for testing Mesa.
 %package -n glx-utils
 Summary: GLX utilities
 Group: Development/Libraries
+Provides: glxinfo glxinfo%{?__isa_bits}
 
 %description -n glx-utils
 The glx-utils package provides the glxinfo and glxgears utilities.
@@ -65,6 +66,9 @@ popd
 
 install -m 0755 src/xdemos/glxgears %{buildroot}%{_bindir}
 install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}
+%if 0%{?__isa_bits} != 0
+install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}/glxinfo%{?__isa_bits}
+%endif
 
 %check
 
@@ -73,12 +77,16 @@ install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}
 %{_datadir}/%{name}/
 
 %files -n glx-utils
-%{_bindir}/glxinfo
+%{_bindir}/glxinfo*
 %{_bindir}/glxgears
 %{_bindir}/xdriinfo
 %{_datadir}/man/man1/xdriinfo.1*
 
 %changelog
+* Wed Feb 27 2013 Adam Jackson <ajax@redhat.com> 8.1.0-2
+- Copy glxinfo to glxinfo%%{__isa_bits}, to allow people to check that their
+  compatibility drivers are working.
+
 * Sun Feb 24 2013 Dave Airlie <airlied@redhat.com> 8.1.0-1
 - package upstream demos release 8.1.0 (mainly for new glxinfo)
 
