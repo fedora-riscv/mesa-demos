@@ -7,15 +7,16 @@
 
 Summary: Mesa demos
 Name: mesa-demos
-Version: 8.0.1
-Release: 1.%{gitdate}git%{shortcommit}%{?dist}
+Version: 8.1.0
+Release: 2%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
 # git clone http://anongit.freedesktop.org/git/mesa/demos.git
 # mv demos mesa-demos-6eef979a5488dab01088412f88374b2ea9d615cd
 # tar --exclude-vcs -cjf mesa-demos-6eef979.tar.bz2 mesa-demos-6eef979a5488dab01088412f88374b2ea9d615cd
-Source0: %{tarball}-%{shortcommit}.tar.bz2
+# Source0: %{tarball}-%{shortcommit}.tar.bz2
+Source0: ftp://ftp.freedesktop.org/pub/mesa/demos/8.1.0/%{tarball}-%{version}.tar.bz2
 Source1: http://www.x.org/pub/individual/app/%{xdriinfo}.tar.bz2
 Source2: mesad-git-snapshot.sh
 # Patch pointblast/spriteblast out of the Makefile for legal reasons
@@ -33,12 +34,13 @@ This package provides some demo applications for testing Mesa.
 %package -n glx-utils
 Summary: GLX utilities
 Group: Development/Libraries
+Provides: glxinfo glxinfo%{?__isa_bits}
 
 %description -n glx-utils
 The glx-utils package provides the glxinfo and glxgears utilities.
 
 %prep
-%setup -q -n %{tarball}-%{gitcommit} -b1
+%setup -q -n %{tarball}-%{version} -b1
 %patch0 -p1 -b .legal
 
 # These two files are distributable, but non-free (lack of permission to modify).
@@ -64,6 +66,9 @@ popd
 
 install -m 0755 src/xdemos/glxgears %{buildroot}%{_bindir}
 install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}
+%if 0%{?__isa_bits} != 0
+install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}/glxinfo%{?__isa_bits}
+%endif
 
 %check
 
@@ -72,12 +77,19 @@ install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}
 %{_datadir}/%{name}/
 
 %files -n glx-utils
-%{_bindir}/glxinfo
+%{_bindir}/glxinfo*
 %{_bindir}/glxgears
 %{_bindir}/xdriinfo
 %{_datadir}/man/man1/xdriinfo.1*
 
 %changelog
+* Wed Feb 27 2013 Adam Jackson <ajax@redhat.com> 8.1.0-2
+- Copy glxinfo to glxinfo%%{__isa_bits}, to allow people to check that their
+  compatibility drivers are working.
+
+* Sun Feb 24 2013 Dave Airlie <airlied@redhat.com> 8.1.0-1
+- package upstream demos release 8.1.0 (mainly for new glxinfo)
+
 * Tue Jan  8 2013 Tom Callaway <spot@fedoraproject.org> - 8.0.1-1.20121218git6eef979
 - update to 8.0.1 (git checkout from 20121218)
 - update xdriinfo to 1.0.4
