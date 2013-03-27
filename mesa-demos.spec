@@ -8,7 +8,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.1.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
@@ -21,6 +21,7 @@ Source1: http://www.x.org/pub/individual/app/%{xdriinfo}.tar.bz2
 Source2: mesad-git-snapshot.sh
 # Patch pointblast/spriteblast out of the Makefile for legal reasons
 Patch0: mesa-demos-8.0.1-legal.patch
+Patch1: mesa-demos-as-needed.patch
 BuildRequires: pkgconfig autoconf automake libtool
 BuildRequires: freeglut-devel
 BuildRequires: libGL-devel
@@ -42,6 +43,7 @@ The glx-utils package provides the glxinfo and glxgears utilities.
 %prep
 %setup -q -n %{tarball}-%{version} -b1
 %patch0 -p1 -b .legal
+%patch1 -p1 -b .asneeded
 
 # These two files are distributable, but non-free (lack of permission to modify).
 rm -rf src/demos/pointblast.c
@@ -83,6 +85,9 @@ install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}/glxinfo%{?__isa_bits}
 %{_datadir}/man/man1/xdriinfo.1*
 
 %changelog
+* Wed Mar 27 2013 Adam Jackson <ajax@redhat.com> 8.1.0-3
+- Build with --as-needed so glxinfo doesn't needlessly drag in GLEW
+
 * Wed Feb 27 2013 Adam Jackson <ajax@redhat.com> 8.1.0-2
 - Copy glxinfo to glxinfo%%{__isa_bits}, to allow people to check that their
   compatibility drivers are working.
