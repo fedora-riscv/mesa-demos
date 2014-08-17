@@ -8,7 +8,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.2.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
@@ -85,6 +85,9 @@ install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}/glxinfo%{?__isa_bits}
 %{_datadir}/man/man1/xdriinfo.1*
 
 %changelog
+* Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 8.2.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Sat Jul 05 2014 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 8.2.0-1
 - 8.2.0 upstream release
 
