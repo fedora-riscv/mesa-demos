@@ -1,5 +1,5 @@
-%global gitdate 20121218
-%global gitcommit 6eef979a5488dab01088412f88374b2ea9d615cd
+%global gitdate 20151203
+%global gitcommit f941f6b60dea9bb446b97985a9afb6b1b839e81f
 %global shortcommit %(c=%{gitcommit}; echo ${c:0:7})
 %global tarball mesa-demos
 %global xdriinfo xdriinfo-1.0.4
@@ -8,15 +8,12 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.2.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
-# git clone http://anongit.freedesktop.org/git/mesa/demos.git
-# mv demos mesa-demos-6eef979a5488dab01088412f88374b2ea9d615cd
-# tar --exclude-vcs -cjf mesa-demos-6eef979.tar.bz2 mesa-demos-6eef979a5488dab01088412f88374b2ea9d615cd
-# Source0: %{tarball}-%{shortcommit}.tar.bz2
-Source0: ftp://ftp.freedesktop.org/pub/mesa/demos/8.2.0/%{tarball}-%{version}.tar.bz2
+#Source0: ftp://ftp.freedesktop.org/pub/mesa/demos/8.2.0/%{tarball}-%{version}.tar.bz2
+Source0: mesa-demos-%{gitdate}.tar.bz2
 Source1: http://www.x.org/pub/individual/app/%{xdriinfo}.tar.bz2
 Source2: mesad-git-snapshot.sh
 # Patch pointblast/spriteblast out of the Makefile for legal reasons
@@ -24,10 +21,11 @@ Patch0: mesa-demos-8.0.1-legal.patch
 Patch1: mesa-demos-as-needed.patch
 BuildRequires: pkgconfig autoconf automake libtool
 BuildRequires: freeglut-devel
-BuildRequires: libGL-devel
+BuildRequires: mesa-libGL-devel
+BuildRequires: mesa-libEGL-devel
+BuildRequires: mesa-libGLES-devel
 BuildRequires: libGLU-devel
 BuildRequires: glew-devel
-Group: Development/Libraries
 
 %description
 This package provides some demo applications for testing Mesa.
@@ -40,8 +38,16 @@ Provides: glxinfo glxinfo%{?__isa_bits}
 %description -n glx-utils
 The glx-utils package provides the glxinfo and glxgears utilities.
 
+%package -n egl-utils
+Summary: EGL utilities
+Group: Development/Libraries
+Provides: eglinfo es2_info
+
+%description -n egl-utils
+The egl-utils package provides the eglinfo and es2_info utilities.
+
 %prep
-%setup -q -n %{tarball}-%{version} -b1
+%setup -q -n %{tarball}-%{gitdate} -b1
 %patch0 -p1 -b .legal
 %patch1 -p1 -b .asneeded
 
@@ -72,6 +78,9 @@ install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}
 install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}/glxinfo%{?__isa_bits}
 %endif
 
+install -m 0755 src/egl/opengl/eglinfo %{buildroot}%{_bindir}
+install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
+
 %check
 
 %files
@@ -84,7 +93,15 @@ install -m 0755 src/xdemos/glxinfo %{buildroot}%{_bindir}/glxinfo%{?__isa_bits}
 %{_bindir}/xdriinfo
 %{_datadir}/man/man1/xdriinfo.1*
 
+%files -n egl-utils
+%{_bindir}/eglinfo
+%{_bindir}/es2_info
+
 %changelog
+* Thu Dec 03 2015 Adam Jackson <ajax@redhat.com> 8.2.0-5
+- New git snap
+- Add EGL/GLES buildreqs and egl-utils subpackage
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 8.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
