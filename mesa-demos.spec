@@ -7,7 +7,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.3.0
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
@@ -18,6 +18,8 @@ Source2: mesad-git-snapshot.sh
 # Patch pointblast/spriteblast out of the Makefile for legal reasons
 Patch0: mesa-demos-8.0.1-legal.patch
 Patch1: mesa-demos-as-needed.patch
+# Fix xdriinfo not working with libglvnd
+Patch2: xdriinfo-1.0.4-glvnd.patch
 BuildRequires: pkgconfig autoconf automake libtool
 BuildRequires: freeglut-devel
 BuildRequires: mesa-libGL-devel
@@ -50,6 +52,9 @@ The egl-utils package provides the eglinfo and es2_info utilities.
 %setup -q -n %{name}-%{version} -b1
 %patch0 -p1 -b .legal
 %patch1 -p1 -b .asneeded
+pushd ../%{xdriinfo}
+%patch2 -p1
+popd
 
 # These two files are distributable, but non-free (lack of permission to modify).
 rm -rf src/demos/pointblast.c
@@ -98,6 +103,9 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %{_bindir}/es2_info
 
 %changelog
+* Mon Mar 13 2017 Hans de Goede <hdegoede@redhat.com> - 8.3.0-6
+- Fix xdriinfo not working with libglvnd (rhbz#1429894)
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 8.3.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
