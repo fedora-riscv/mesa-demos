@@ -7,7 +7,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.3.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
@@ -103,6 +103,9 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %{_bindir}/es2_info
 
 %changelog
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 8.3.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Mon Mar 13 2017 Hans de Goede <hdegoede@redhat.com> - 8.3.0-6
 - Fix xdriinfo not working with libglvnd (rhbz#1429894)
 
