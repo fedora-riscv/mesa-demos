@@ -1,5 +1,5 @@
-%global gitdate 20151203
-%global gitcommit f941f6b60dea9bb446b97985a9afb6b1b839e81f
+%global gitdate 20171027
+%global gitcommit 22bc355f1b324b6ea07e063b5f20be757ea7a8e5
 %global shortcommit %(c=%{gitcommit}; echo ${c:0:7})
 %global xdriinfo xdriinfo-1.0.4
 %global demodir %{_libdir}/mesa
@@ -7,12 +7,12 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.3.0
-Release: 8%{?dist}
+Release: 9%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
-Source0: ftp://ftp.freedesktop.org/pub/mesa/demos/%{version}/%{name}-%{version}.tar.bz2
-#Source0: mesa-demos-%{gitdate}.tar.bz2
+#Source0: https://mesa.freedesktop.org/archive/demos/%{version}/%{name}-%{version}.tar.bz2
+Source0: mesa-demos-%{gitdate}.tar.bz2
 Source1: http://www.x.org/pub/individual/app/%{xdriinfo}.tar.bz2
 Source2: mesad-git-snapshot.sh
 # Patch pointblast/spriteblast out of the Makefile for legal reasons
@@ -49,7 +49,7 @@ Provides: eglinfo es2_info
 The egl-utils package provides the eglinfo and es2_info utilities.
 
 %prep
-%setup -q -n %{name}-%{version} -b1
+%setup -q -n %{name}-%{gitdate} -b1
 %patch0 -p1 -b .legal
 %patch1 -p1 -b .asneeded
 pushd ../%{xdriinfo}
@@ -103,6 +103,9 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %{_bindir}/es2_info
 
 %changelog
+* Fri Oct 27 2017 Adam Jackson <ajax@redhat.com> - 8.3.0-9
+- New git snapshot
+
 * Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 8.3.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
