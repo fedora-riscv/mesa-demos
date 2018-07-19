@@ -20,6 +20,7 @@ Patch0: mesa-demos-8.0.1-legal.patch
 Patch1: mesa-demos-as-needed.patch
 # Fix xdriinfo not working with libglvnd
 Patch2: xdriinfo-1.0.4-glvnd.patch
+BuildRequires:  gcc-c++
 BuildRequires: pkgconfig autoconf automake libtool
 BuildRequires: freeglut-devel
 BuildRequires: mesa-libGL-devel
