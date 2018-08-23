@@ -7,7 +7,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.3.0
-Release: 11%{?dist}
+Release: 12%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
@@ -104,6 +104,9 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %{_bindir}/es2_info
 
 %changelog
+* Thu Aug 23 2018 Nicolas Chauvet <kwizart@gmail.com> - 8.3.0-12
+- Rebuilt for glew 2.1.0
+
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 8.3.0-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
