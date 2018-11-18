@@ -1,13 +1,13 @@
-%global gitdate 20171027
-%global gitcommit 22bc355f1b324b6ea07e063b5f20be757ea7a8e5
+%global gitdate 20181118
+%global gitcommit 1830dcb6e48c88f16d328dc4fc9fa32fe3b4956e
 %global shortcommit %(c=%{gitcommit}; echo ${c:0:7})
 %global xdriinfo xdriinfo-1.0.4
 %global demodir %{_libdir}/mesa
 
 Summary: Mesa demos
 Name: mesa-demos
-Version: 8.3.0
-Release: 12%{?dist}
+Version: 8.4.0
+Release: 1%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
@@ -104,6 +104,9 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %{_bindir}/es2_info
 
 %changelog
+* Sun Nov 18 2018 Lyude Paul <lyude@redhat.com> - 8.4.0-1
+- New git snapshot
+
 * Thu Aug 23 2018 Nicolas Chauvet <kwizart@gmail.com> - 8.3.0-12
 - Rebuilt for glew 2.1.0
 
