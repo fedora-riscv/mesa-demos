@@ -7,7 +7,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.4.0
-Release: 1%{?dist}
+Release: 2.%{gitdate}git%{shortcommit}%{?dist}
 License: MIT
 Group: System Environment/Libraries
 URL: http://www.mesa3d.org
@@ -104,6 +104,9 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %{_bindir}/es2_info
 
 %changelog
+* Mon Nov 19 2018 Lyude Paul <lyude@redhat.com> - 8.4.0-2.20181118git1830dcb
+- Start using proper git version strings for rawhide
+
 * Sun Nov 18 2018 Lyude Paul <lyude@redhat.com> - 8.4.0-1
 - New git snapshot
 
