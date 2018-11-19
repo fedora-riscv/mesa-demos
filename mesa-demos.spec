@@ -29,6 +29,8 @@ BuildRequires: mesa-libGLES-devel
 BuildRequires: mesa-libgbm-devel
 BuildRequires: libGLU-devel
 BuildRequires: glew-devel
+BuildRequires: wayland-devel
+BuildRequires: freetype-devel
 
 %description
 This package provides some demo applications for testing Mesa.
@@ -63,7 +65,16 @@ rm -rf src/demos/spriteblast.c
 
 %build
 autoreconf -vfi
-%configure --bindir=%{demodir} --with-system-data-files
+%configure \
+    --bindir=%{demodir} \
+    --with-system-data-files \
+    --enable-x11 \
+    --enable-wayland \
+    --enable-gbm \
+    --enable-egl \
+    --enable-gles2 \
+    --enable-libdrm \
+    --enable-freetype2
 make %{?_smp_mflags}
 
 pushd ../%{xdriinfo}
@@ -106,6 +117,7 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %changelog
 * Mon Nov 19 2018 Lyude Paul <lyude@redhat.com> - 8.4.0-2.20181118git1830dcb
 - Start using proper git version strings for rawhide
+- Enabling building of wayland and freetype demos
 
 * Sun Nov 18 2018 Lyude Paul <lyude@redhat.com> - 8.4.0-1
 - New git snapshot
