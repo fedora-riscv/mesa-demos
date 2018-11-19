@@ -28,6 +28,8 @@ BuildRequires: mesa-libGLES-devel
 BuildRequires: mesa-libgbm-devel
 BuildRequires: libGLU-devel
 BuildRequires: glew-devel
+BuildRequires: wayland-devel
+BuildRequires: freetype-devel
 
 %description
 This package provides some demo applications for testing Mesa.
@@ -62,7 +64,16 @@ rm -rf src/demos/spriteblast.c
 
 %build
 autoreconf -vfi
-%configure --bindir=%{demodir} --with-system-data-files
+%configure \
+    --bindir=%{demodir} \
+    --with-system-data-files \
+    --enable-x11 \
+    --enable-wayland \
+    --enable-gbm \
+    --enable-egl \
+    --enable-gles2 \
+    --enable-libdrm \
+    --enable-freetype2
 make %{?_smp_mflags}
 
 pushd ../%{xdriinfo}
@@ -105,6 +116,7 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %changelog
 * Mon Nov 19 2018 Lyude Paul <lyude@redhat.com> - 8.4.0-1
 - 8.4.0
+- Enabling building of wayland and freetype demos
 
 * Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 8.3.0-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
