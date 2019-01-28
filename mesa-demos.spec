@@ -9,7 +9,6 @@ Name: mesa-demos
 Version: 8.4.0
 Release: 2.%{gitdate}git%{shortcommit}%{?dist}
 License: MIT
-Group: System Environment/Libraries
 URL: http://www.mesa3d.org
 #Source0: https://mesa.freedesktop.org/archive/demos/%{version}/%{name}-%{version}.tar.bz2
 Source0: mesa-demos-%{gitdate}.tar.bz2
@@ -37,7 +36,6 @@ This package provides some demo applications for testing Mesa.
 
 %package -n glx-utils
 Summary: GLX utilities
-Group: Development/Libraries
 Provides: glxinfo glxinfo%{?__isa_bits}
 
 %description -n glx-utils
@@ -45,7 +43,6 @@ The glx-utils package provides the glxinfo and glxgears utilities.
 
 %package -n egl-utils
 Summary: EGL utilities
-Group: Development/Libraries
 Provides: eglinfo es2_info
 
 %description -n egl-utils
