@@ -27,6 +27,7 @@ BuildRequires: mesa-libEGL-devel
 BuildRequires: mesa-libGLES-devel
 BuildRequires: mesa-libgbm-devel
 BuildRequires: libGLU-devel
+BuildRequires: libXext-devel
 BuildRequires: glew-devel
 BuildRequires: wayland-devel
 BuildRequires: freetype-devel
