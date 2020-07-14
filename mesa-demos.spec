@@ -7,7 +7,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.4.0
-Release: 7.%{gitdate}git%{shortcommit}%{?dist}
+Release: 8.%{gitdate}git%{shortcommit}%{?dist}
 License: MIT
 URL: http://www.mesa3d.org
 #Source0: https://mesa.freedesktop.org/archive/demos/%{version}/%{name}-%{version}.tar.bz2
@@ -73,18 +73,18 @@ autoreconf -vfi
     --enable-gles2 \
     --enable-libdrm \
     --enable-freetype2
-make %{?_smp_mflags}
+%make_build
 
 pushd ../%{xdriinfo}
 %configure
-make %{?_smp_mflags}
+%make_build
 popd
 
 %install
-make install DESTDIR=%{buildroot}
+%make_install
 
 pushd ../%{xdriinfo}
-make %{?_smp_mflags} install DESTDIR=%{buildroot}
+%make_install %{?_smp_mflags}
 popd
 
 install -m 0755 src/xdemos/glxgears %{buildroot}%{_bindir}
@@ -113,6 +113,10 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %{_bindir}/es2_info
 
 %changelog
+* Wed Jul 29 2020 Tom Stellard <tstellar@redhat.com> - 8.4.0-8.20181118git1830dcb
+- Use make macros
+- https://fedoraproject.org/wiki/Changes/UseMakeBuildInstallMacro
+
 * Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 8.4.0-7.20181118git1830dcb
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
