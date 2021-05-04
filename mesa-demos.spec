@@ -1,5 +1,5 @@
-%global gitdate 20181118
-%global gitcommit 1830dcb6e48c88f16d328dc4fc9fa32fe3b4956e
+%global gitdate 20210504
+%global gitcommit 0f9e7d995a14f15666600fc8598f941b619d82fe
 %global shortcommit %(c=%{gitcommit}; echo ${c:0:7})
 %global xdriinfo xdriinfo-1.0.4
 %global demodir %{_libdir}/mesa
@@ -7,7 +7,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.4.0
-Release: 9.%{gitdate}git%{shortcommit}%{?dist}
+Release: 10.%{gitdate}git%{shortcommit}%{?dist}
 License: MIT
 URL: http://www.mesa3d.org
 #Source0: https://mesa.freedesktop.org/archive/demos/%{version}/%{name}-%{version}.tar.bz2
@@ -20,7 +20,7 @@ Patch1: mesa-demos-as-needed.patch
 # Fix xdriinfo not working with libglvnd
 Patch2: xdriinfo-1.0.4-glvnd.patch
 BuildRequires: make
-BuildRequires:  gcc-c++
+BuildRequires: gcc-c++
 BuildRequires: pkgconfig autoconf automake libtool
 BuildRequires: freeglut-devel
 BuildRequires: mesa-libGL-devel
@@ -29,7 +29,6 @@ BuildRequires: mesa-libGLES-devel
 BuildRequires: mesa-libgbm-devel
 BuildRequires: libGLU-devel
 BuildRequires: libXext-devel
-BuildRequires: glew-devel
 BuildRequires: wayland-devel
 BuildRequires: freetype-devel
 
@@ -114,6 +113,9 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %{_bindir}/es2_info
 
 %changelog
+* Tue May 04 2021 Adam Jackson <ajax@redhat.com> - 8.4.0-10.20200504git%(c=%{gitcommit}; echo ${c:0:7})
+- Sync with upstream to drop the glew dependency
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 8.4.0-9.20181118git1830dcb
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
