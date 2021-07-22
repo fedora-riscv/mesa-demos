@@ -7,7 +7,7 @@
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.4.0
-Release: 11.%{gitdate}git%{shortcommit}%{?dist}
+Release: 12.%{gitdate}git%{shortcommit}%{?dist}
 License: MIT
 URL: http://www.mesa3d.org
 #Source0: https://mesa.freedesktop.org/archive/demos/%{version}/%{name}-%{version}.tar.bz2
@@ -113,6 +113,9 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %{_bindir}/es2_info
 
 %changelog
+* Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 8.4.0-12.20210504git0f9e7d9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Tue May 04 2021 Adam Jackson <ajax@redhat.com> - 8.4.0-11.20210504git0f9e7d995a14f15
 - Sync with upstream to drop the glew dependency
 
