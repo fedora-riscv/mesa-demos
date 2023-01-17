@@ -4,10 +4,14 @@
 %global xdriinfo xdriinfo-1.0.4
 %global demodir %{_libdir}/mesa
 
+%ifarch riscv64
+%global debug_package %{nil}
+%endif
+
 Summary: Mesa demos
 Name: mesa-demos
 Version: 8.4.0
-Release: 14.%{gitdate}git%{shortcommit}%{?dist}
+Release: 14.%{gitdate}git%{shortcommit}.rv64%{?dist}
 License: MIT
 URL: http://www.mesa3d.org
 #Source0: https://mesa.freedesktop.org/archive/demos/%{version}/%{name}-%{version}.tar.bz2
@@ -113,6 +117,9 @@ install -m 0755 src/egl/opengles2/es2_info %{buildroot}%{_bindir}
 %{_bindir}/es2_info
 
 %changelog
+* Tue Jan 17 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 8.4.0-14.20210504git0f9e7d9.rv64
+- Disable debug package on riscv64.
+
 * Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 8.4.0-14.20210504git0f9e7d9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 
